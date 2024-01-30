@@ -162,3 +162,5 @@ cython_debug/
 # Custom
 /raw_data/*
 /data/*
+/model_checkpoints/*
+/saved_images/*

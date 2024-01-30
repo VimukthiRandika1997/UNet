@@ -1,11 +1,13 @@
+import os
 import torch
 import torchvision
 from dataset import CarvanaDataset
 from torch.utils.data import DataLoader
 
-def save_checkpoint(state, filename="checkpoint_last.pth.tar"):
+def save_checkpoint(state, folder='model_checkpoints', filename="checkpoint_last.pth"):
+    os.makedirs(folder, exist_ok=True)
     print("=> Saving checkpoint")
-    torch.save(state, filename)
+    torch.save(state, os.path.join(folder, filename))
 
 def load_checkpoint(checkpoint, model):
     print("=> Loading checkpoint")
@@ -79,6 +81,10 @@ def check_accuracy(loader, model, device="cuda"):
 def save_predictions_as_imgs(
     loader, model, folder="saved_images/", device="cuda"
 ):
+    
+    # create saving directory
+    os.makedirs(folder, exist_ok=True)
+
     model.eval()
     for idx, (x, y) in enumerate(loader):
         x = x.to(device=device)

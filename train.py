@@ -95,7 +95,7 @@ def main():
     )
 
     if LOAD_MODEL:
-        load_checkpoint(torch.load("my_checkpoint.pth.tar"), model)
+        load_checkpoint(torch.load("model_checkpoints/checkpoint_last.pth.tar"), model)
 
 
     check_accuracy(val_loader, model, device=DEVICE)
