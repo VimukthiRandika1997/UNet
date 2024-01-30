@@ -164,3 +164,5 @@ cython_debug/
 /data/*
 /model_checkpoints/*
 /saved_images/*
+/inferences/*
+/test_set_inferences/*

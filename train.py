@@ -103,7 +103,7 @@ def main():
     )
 
     if LOAD_MODEL:
-        load_checkpoint(torch.load("model_checkpoints/checkpoint_last.pth.tar"), model)
+        load_checkpoint(torch.load("model_checkpoints/checkpoint_last.pth"), model)
 
 
     check_accuracy(val_loader, model, device=DEVICE)
