@@ -1,3 +1,5 @@
+import yaml
+
 import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -13,20 +15,25 @@ from utils import (
     save_predictions_as_imgs,
 )
 
-# Hyperparameters etc.
-LEARNING_RATE = 1e-4
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 16
-NUM_EPOCHS = 3
-NUM_WORKERS = 2
-IMAGE_HEIGHT = 160  # 1280 originally
-IMAGE_WIDTH = 240  # 1918 originally
-PIN_MEMORY = True
-LOAD_MODEL = False
-TRAIN_IMG_DIR = "data/train_images/"
-TRAIN_MASK_DIR = "data/train_masks/"
-VAL_IMG_DIR = "data/val_images/"
-VAL_MASK_DIR = "data/val_masks/"
+# Read hyperparameters
+with open('./configs/hyperparameters.yaml', 'r') as f:
+    content = yaml.safe_load(f)
+
+LEARNING_RATE = content['LEARNING_RATE']
+DEVICE = content['DEVICE']
+BATCH_SIZE = content['BATCH_SIZE']
+NUM_EPOCHS = content['NUM_EPOCHS']
+NUM_WORKERS = content['NUM_WORKERS']
+IMAGE_HEIGHT = content['IMAGE_HEIGHT']
+IMAGE_WIDTH = content['IMAGE_WIDTH']
+PIN_MEMORY = content['PIN_MEMORY']
+LOAD_MODEL = content['LOAD_MODEL']
+TRAIN_IMG_DIR = content['TRAIN_IMG_DIR']
+TRAIN_MASK_DIR = content['TRAIN_MASK_DIR']
+VAL_IMG_DIR = content['VAL_IMG_DIR']
+VAL_MASK_DIR = content['VAL_MASK_DIR']
+
+
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
@@ -48,6 +55,7 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 
         # update tqdm loop
         loop.set_postfix(loss=loss.item())
+
 
 
 def main():
@@ -99,7 +107,7 @@ def main():
 
 
     check_accuracy(val_loader, model, device=DEVICE)
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.cuda.amp.GradScaler() # Fro grading-clipping
 
     for epoch in range(NUM_EPOCHS):
         train_fn(train_loader, model, optimizer, loss_fn, scaler)

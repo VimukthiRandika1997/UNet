@@ -1,0 +1,13 @@
+LEARNING_RATE : 0.0001
+DEVICE : cuda # either cuda or cpu
+BATCH_SIZE : 16
+NUM_EPOCHS : 3
+NUM_WORKERS : 2
+IMAGE_HEIGHT : 160  
+IMAGE_WIDTH : 240  
+PIN_MEMORY : True
+LOAD_MODEL : False
+TRAIN_IMG_DIR : data/train_images/
+TRAIN_MASK_DIR : data/train_masks/
+VAL_IMG_DIR : data/val_images/
+VAL_MASK_DIR : data/val_masks/
